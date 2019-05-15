@@ -210,14 +210,14 @@ module ActionView
               options[:include_blank] ||= true unless options[:prompt]
             end
 
-            value = options[:selected] ? options[:selected] : (method(:value).arity.zero? ? value : value(object))
+            value = options[:selected] ? options[:selected] : (method(:value).arity.zero? ? send(value) : send(:value, object)))
             priority_regions = options[:priority] || []
-            opts = add_options(region_options_for_select(parent_region.subregions, value, 
-                                                        :priority => priority_regions), 
+            opts = add_options(region_options_for_select(parent_region.subregions, value,
+                                                        :priority => priority_regions),
                                options, value)
             select = content_tag("select", opts, html_options)
             if html_options["multiple"] && options.fetch(:include_hidden, true)
-              tag("input", :disabled => html_options["disabled"], :name => html_options["name"], 
+              tag("input", :disabled => html_options["disabled"], :name => html_options["name"],
                            :type => "hidden", :value => "") + select
             else
               select
